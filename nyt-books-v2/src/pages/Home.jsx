@@ -1,5 +1,7 @@
-import React, { useEffect, useState } from 'react';
+import React from 'react';
 import { useNavigate } from 'react-router-dom';
+import Header from '../components/Header';
+import Footer from '../components/Footer';
 import '../Home.css';
 import BigImage from '../assets/imgs/fondo-libros2k.jpg';
 
@@ -7,48 +9,14 @@ import { Container, Row, Col, Card } from 'react-bootstrap';
 
 import Carousel from 'react-multi-carousel';
 import 'react-multi-carousel/lib/styles.css';
-import axios from 'axios';
+import { useBooks } from '../context/BooksContext';
 
 const Home = () => {
-  const [data, setData] = useState(null);
-  const [categories, setCategories] = useState([]);
   const navigate = useNavigate();
+  const { booksData } = useBooks();
 
-  useEffect(() => {
-    // Fetch data from the NYT Books API
-    const fetchData = async () => {
-      try {
-        const response = await axios.get(
-          'https://api.nytimes.com/svc/books/v3/lists/full-overview.json?api-key=lSEIqcrspFjvfKKyxC3rRFxwg9RpoYsk'
-        );
-        const fetchedData = response.data;
-        setData(fetchedData);
-
-        // Log the fetched data to the console
-        console.log(fetchedData);
-
-        // Extract categories and remove duplicates
-        const extractedCategories = fetchedData.results.lists.map((list) => ({
-          list_name: list.list_name,
-          list_id: list.list_id,
-        }));
-
-        const uniqueCategories = Array.from(
-          new Map(extractedCategories.map(item => [item['list_name'], item])).values()
-        );
-
-        setCategories(uniqueCategories);
-
-      } catch (error) {
-        console.error('Error fetching data from NYT Books API', error);
-      }
-    };
-
-    fetchData();
-  }, []);
-
-  const handleCardClick = (book) => {
-    navigate(`/book/${book.primary_isbn13}`, { state: { book } });
+  const handleCardClick = (book, category) => {
+    navigate(`/book/${book.primary_isbn13}`, { state: { book, category } });
   };
 
   const responsive = {
@@ -71,6 +39,7 @@ const Home = () => {
 
   return (
     <Container fluid style={{ height: 'auto', margin: 0, width: 'auto', padding: 0 }}>
+      <Header />
       <Container>
         <Row>
           <Col>
@@ -86,7 +55,7 @@ const Home = () => {
       </Container>
 
       <Container className="pt-5 pb-5">
-        {data && categories.map((category, index) => (
+        {booksData && booksData.results.lists.map((category, index) => (
           <Row key={index} className="mb-5">
             <Col>
               <h2 className="text">{category.list_name}</h2>
@@ -107,11 +76,11 @@ const Home = () => {
                   dotListClass="custom-dot-list-style"
                   itemClass="carousel-item-padding-40-px"
                 >
-                  {data.results.lists.filter(list => list.list_name === category.list_name)[0].books.map((book, bookIndex) => (
+                  {category.books.map((book, bookIndex) => (
                     <Card 
                       key={bookIndex} 
                       className="carousel-item-half-height" 
-                      onClick={() => handleCardClick(book)}
+                      onClick={() => handleCardClick(book, category.list_name)}
                       style={{ cursor: 'pointer' }} // Adding a pointer cursor to indicate the card is clickable
                     >
                       <Card.Img src={book.book_image} alt={book.title} className="card-img" />
@@ -127,6 +96,7 @@ const Home = () => {
           </Row>
         ))}
       </Container>
+      <Footer />
     </Container>
   );
 };

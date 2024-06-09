@@ -2,28 +2,54 @@ import React, { useEffect, useState } from 'react';
 import { Container, Row, Col, Image } from 'react-bootstrap';
 import { useLocation, useParams } from 'react-router-dom';
 import axios from 'axios';
+import Header from '../components/Header';
+import Footer from '../components/Footer';
+import { useBooks } from '../context/BooksContext';
 
 const Books = () => {
   const location = useLocation();
   const { bookId } = useParams();
+  const { booksData } = useBooks();
   const [book, setBook] = useState(location.state?.book || null);
+  const [category, setCategory] = useState(location.state?.category || null);
+  const [reviews, setReviews] = useState([]);
 
   useEffect(() => {
-    if (!book) {
-      // Fetch the book details using the bookId
-      const fetchBook = async () => {
-        try {
-          const response = await axios.get(`https://api.nytimes.com/svc/books/v3/lists/full-overview.json?api-key=lSEIqcrspFjvfKKyxC3rRFxwg9RpoYsk`);
-          const allBooks = response.data.results.lists.flatMap(list => list.books);
-          const foundBook = allBooks.find(b => b.primary_isbn13 === bookId);
-          setBook(foundBook);
-        } catch (error) {
-          console.error('Error fetching book data', error);
-        }
-      };
-      fetchBook();
+    if (!book && booksData) {
+      const allBooks = booksData.results.lists.flatMap(list => list.books);
+      const foundBook = allBooks.find(b => b.primary_isbn13 === bookId);
+      setBook(foundBook);
+
+      const foundCategory = booksData.results.lists.find(list => list.books.some(b => b.primary_isbn13 === bookId)).list_name;
+      setCategory(foundCategory);
+
+      console.log('Book data:', foundBook);
+    } else if (book) {
+      console.log('Book data:', book);
     }
-  }, [book, bookId]);
+  }, [book, bookId, booksData]);
+
+  useEffect(() => {
+    const fetchReviews = async (retryCount = 0) => {
+      if (book) {
+        try {
+          const response = await axios.get(`https://api.nytimes.com/svc/books/v3/reviews.json?isbn=${book.primary_isbn13}&api-key=lSEIqcrspFjvfKKyxC3rRFxwg9RpoYsk`);
+          setReviews(response.data.results);
+
+          console.log('Reviews data:', response.data.results);
+        } catch (error) {
+          if (error.response && error.response.status === 429 && retryCount < 3) {
+            const delay = Math.pow(2, retryCount) * 1000;
+            console.warn(`Rate limit exceeded. Retrying in ${delay / 1000} seconds...`);
+            setTimeout(() => fetchReviews(retryCount + 1), delay);
+          } else {
+            console.error('Error fetching reviews', error);
+          }
+        }
+      }
+    };
+    fetchReviews();
+  }, [book]);
 
   if (!book) {
     return <p>No book data available.</p>;
@@ -31,51 +57,47 @@ const Books = () => {
 
   return (
     <Container>
+      <Header />
       <h1 className="text-center pb-5">{book.title}</h1>
       
       <Row>
-        {/* Book image as a 1/3 column */}
         <Col md={4}>
           <Image src={book.book_image} alt="Imagen del libro" fluid />
         </Col>
-        {/* Book description as a 2/3 column */}
         <Col md={8} className="text-start">
           <p><strong>{book.description}</strong></p>
           <p><strong>Author:</strong> {book.author}</p>
           <p><strong>Published by:</strong> {book.publisher}</p>
-          <p><strong>Category:</strong> {book.category}</p>
+          <p><strong>Category:</strong> {category}</p>
         </Col>
       </Row>
     
       <Row className="py-5">
         <Col>
           <h2 className="text-center">Reviews</h2>
+          {reviews.length === 0 ? (
+            <p className="text-center">There are no reviews for this book yet.</p>
+          ) : (
+            reviews.map((review, index) => (
+              <div key={index}>
+                <h3><a href={review.url}>{review.book_review_link}</a></h3>
+                <h4>{review.byline}</h4>
+                <br />
+              </div>
+            ))
+          )}
         </Col>
       </Row>
     
-      {/* Ensure reviews start where the image starts */}
       <Row>
         <Col md={4}>
-          {/* These reviews are placeholders; API consumption is needed */}
-          <h3><a href="bajoconstruccion.html">Review Title</a></h3>
-          <h4>Review Author</h4>
-          <br />
-          <h3><a href="bajoconstruccion.html">Review Title</a></h3>
-          <h4>Review Author</h4>
-          <br />
-          <h3><a href="bajoconstruccion.html">Review Title</a></h3>
-          <h4>Review Author</h4>
-          <br />
-          <h3><a href="bajoconstruccion.html">Review Title</a></h3>
-          <h4>Review Author</h4>
-          <br />
         </Col>
         <Col md={8}>
-          {/* Additional reviews or content can go here, aligning with the book description */}
         </Col>
       </Row>
+      <Footer />
     </Container>
-  )
+  );
 }
 
 export default Books;
