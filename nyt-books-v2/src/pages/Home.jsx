@@ -1,7 +1,5 @@
 import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import Header from '../components/Header';
-import Footer from '../components/Footer';
 import '../Home.css';
 import BigImage from '../assets/imgs/fondo-libros2k.jpg';
 
@@ -73,7 +71,6 @@ const Home = () => {
 
   return (
     <Container fluid style={{ height: 'auto', margin: 0, width: 'auto', padding: 0 }}>
-      <Header />
       <Container>
         <Row>
           <Col>
@@ -130,7 +127,6 @@ const Home = () => {
           </Row>
         ))}
       </Container>
-      <Footer />
     </Container>
   );
 };

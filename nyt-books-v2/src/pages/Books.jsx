@@ -2,8 +2,6 @@ import React, { useEffect, useState } from 'react';
 import { Container, Row, Col, Image } from 'react-bootstrap';
 import { useLocation, useParams } from 'react-router-dom';
 import axios from 'axios';
-import Header from '../components/Header';
-import Footer from '../components/Footer';
 
 const Books = () => {
   const location = useLocation();
@@ -33,7 +31,6 @@ const Books = () => {
 
   return (
     <Container>
-      <Header />
       <h1 className="text-center pb-5">{book.title}</h1>
       
       <Row>
@@ -77,7 +74,6 @@ const Books = () => {
           {/* Additional reviews or content can go here, aligning with the book description */}
         </Col>
       </Row>
-      <Footer />
     </Container>
   )
 }
