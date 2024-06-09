@@ -1,0 +1,54 @@
+.carousel-item-half-height {
+    max-height: 50vh;
+  }
+  
+  .carousel-item-half-height .card-img {
+    height: 100%;
+    object-fit: cover;
+  }
+  
+  .bookshelf-background {
+    background: url('assets/imgs/bookshelf.jpg') no-repeat center center;
+    background-size: cover;
+    padding: 20px; /* Adjust padding as needed */
+    border-radius: 10px; /* Optional: for rounded corners */
+    margin-bottom: 20px; /* Space below the bookshelf */
+    border: 2px solid black; /* Add a slight black border */
+  }
+  
+  .bookshelf-background .react-multi-carousel-list {
+    background-color: rgba(209, 209, 209, 0.1); /* Slightly darker brown with transparency for carousel background */
+    backdrop-filter: blur(5px); /* Apply a blur effect to create a glass-like effect */
+    border-radius: 10px; /* Optional: for rounded corners */
+    padding: 10px; /* Adjust padding as needed */
+  }
+  
+  .bookshelf-background .react-multi-carousel-item {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin: 10px; /* Space between items */
+  }
+  
+  .custom-carousel .react-multi-carousel-track {
+    display: flex;
+    align-items: center;
+  }
+  
+  .custom-carousel .react-multi-carousel-item img {
+    width: 100%;
+    height: auto;
+    object-fit: cover;
+  }
+  
+  @media (max-width: 768px) {
+    .custom-carousel .react-multi-carousel-item {
+      flex: 0 0 33.33%; /* Show 3 items for mobile */
+    }
+  }
+  
+  @media (min-width: 769px) {
+    .custom-carousel .react-multi-carousel-item {
+      flex: 0 0 20%; /* Show 5 items for desktop */
+    }
+  }

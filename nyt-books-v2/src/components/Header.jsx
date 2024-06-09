@@ -1,5 +1,6 @@
 import React from 'react';
 import { Navbar, Nav, NavDropdown, Container } from 'react-bootstrap';
+import logo from '../assets/imgs/Logo-Libros1.png';
 
 const Header = () => {
   return (
@@ -8,7 +9,7 @@ const Header = () => {
         <Container fluid>
           <Navbar.Brand href="#">
             <img
-              src="assets/imgs/Logo-Libros1.png"
+              src={logo}
               alt=""
               width="30"
               height="24"
