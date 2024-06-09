@@ -7,6 +7,7 @@ export const useBooks = () => useContext(BooksContext);
 
 export const BooksProvider = ({ children }) => {
   const [booksData, setBooksData] = useState(null);
+  const [categories, setCategories] = useState([]);
 
   useEffect(() => {
     // Fetch data from the NYT Books API
@@ -17,6 +18,18 @@ export const BooksProvider = ({ children }) => {
         );
         const fetchedData = response.data;
         setBooksData(fetchedData);
+
+        // Extract categories and remove duplicates
+        const extractedCategories = fetchedData.results.lists.map((list) => ({
+          list_name: list.list_name,
+          list_id: list.list_id,
+        }));
+
+        const uniqueCategories = Array.from(
+          new Map(extractedCategories.map(item => [item['list_name'], item])).values()
+        );
+
+        setCategories(uniqueCategories);
 
         // Log the fetched data to the console
         console.log(fetchedData);
@@ -29,7 +42,7 @@ export const BooksProvider = ({ children }) => {
   }, []);
 
   return (
-    <BooksContext.Provider value={{ booksData }}>
+    <BooksContext.Provider value={{ booksData, categories }}>
       {children}
     </BooksContext.Provider>
   );

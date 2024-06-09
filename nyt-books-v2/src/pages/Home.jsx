@@ -1,7 +1,5 @@
-import React from 'react';
-import { useNavigate } from 'react-router-dom';
-import Header from '../components/Header';
-import Footer from '../components/Footer';
+import React, { useEffect, useRef } from 'react';
+import { useNavigate, useLocation } from 'react-router-dom';
 import '../Home.css';
 import BigImage from '../assets/imgs/fondo-libros2k.jpg';
 
@@ -11,9 +9,28 @@ import Carousel from 'react-multi-carousel';
 import 'react-multi-carousel/lib/styles.css';
 import { useBooks } from '../context/BooksContext';
 
+const truncateString = (str, num) => {
+  if (str.length <= num) {
+    return str;
+  }
+  return str.slice(0, num) + "...";
+};
+
 const Home = () => {
   const navigate = useNavigate();
+  const location = useLocation();
   const { booksData } = useBooks();
+  const categoryRefs = useRef({});
+
+  useEffect(() => {
+    if (location.state?.scrollTo) {
+      const categoryElement = categoryRefs.current[location.state.scrollTo];
+      if (categoryElement) {
+        categoryElement.scrollIntoView({ behavior: 'smooth' });
+      }
+      navigate(location.pathname, { replace: true }); // Clear state after scroll
+    }
+  }, [location, navigate]);
 
   const handleCardClick = (book, category) => {
     navigate(`/book/${book.primary_isbn13}`, { state: { book, category } });
@@ -39,7 +56,6 @@ const Home = () => {
 
   return (
     <Container fluid style={{ height: 'auto', margin: 0, width: 'auto', padding: 0 }}>
-      <Header />
       <Container>
         <Row>
           <Col>
@@ -56,7 +72,11 @@ const Home = () => {
 
       <Container className="pt-5 pb-5">
         {booksData && booksData.results.lists.map((category, index) => (
-          <Row key={index} className="mb-5">
+          <Row
+            key={index}
+            className="mb-5"
+            ref={(el) => { categoryRefs.current[category.list_name] = el; }}
+          >
             <Col>
               <h2 className="text">{category.list_name}</h2>
               <div className="bookshelf-background">
@@ -84,9 +104,9 @@ const Home = () => {
                       style={{ cursor: 'pointer' }} // Adding a pointer cursor to indicate the card is clickable
                     >
                       <Card.Img src={book.book_image} alt={book.title} className="card-img" />
-                      <Card.ImgOverlay style={{ background: 'linear-gradient(to top, rgba(0,0,0,0.7), rgba(0,0,0,0))', bottom: 0, display: 'flex', flexDirection: 'column', justifyContent: 'flex-end' }}>
+                      <Card.ImgOverlay>
                         <Card.Title style={{ color: 'white' }}>{book.title}</Card.Title>
-                        <Card.Text style={{ color: 'white' }}>{book.description}</Card.Text>
+                        <Card.Text style={{ color: 'white' }}>{truncateString(book.description, 40)}</Card.Text>
                       </Card.ImgOverlay>
                     </Card>
                   ))}
@@ -96,7 +116,6 @@ const Home = () => {
           </Row>
         ))}
       </Container>
-      <Footer />
     </Container>
   );
 };

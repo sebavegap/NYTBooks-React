@@ -2,8 +2,6 @@ import React, { useEffect, useState } from 'react';
 import { Container, Row, Col, Image } from 'react-bootstrap';
 import { useLocation, useParams } from 'react-router-dom';
 import axios from 'axios';
-import Header from '../components/Header';
-import Footer from '../components/Footer';
 import { useBooks } from '../context/BooksContext';
 
 const Books = () => {
@@ -57,7 +55,6 @@ const Books = () => {
 
   return (
     <Container>
-      <Header />
       <h1 className="text-center pb-5">{book.title}</h1>
       
       <Row>
@@ -80,7 +77,7 @@ const Books = () => {
           ) : (
             reviews.map((review, index) => (
               <div key={index}>
-                <h3><a href={review.url}>{review.book_review_link}</a></h3>
+                <h3><a href={review.url}>{review.book_title}</a></h3>
                 <h4>{review.byline}</h4>
                 <br />
               </div>
@@ -95,7 +92,6 @@ const Books = () => {
         <Col md={8}>
         </Col>
       </Row>
-      <Footer />
     </Container>
   );
 }
