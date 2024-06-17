@@ -36,3 +36,13 @@
     transform: rotate(360deg);
   }
 }
+
+/* Ensure the main content takes the full height of the viewport minus the footer */
+.main-content {
+  flex: 1 0 auto;
+}
+
+/* Sticky footer styles */
+.footer {
+  flex-shrink: 0;
+}
