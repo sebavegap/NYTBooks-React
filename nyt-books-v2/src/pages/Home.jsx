@@ -9,14 +9,6 @@ import Carousel from 'react-multi-carousel';
 import 'react-multi-carousel/lib/styles.css';
 import { useBooks } from '../context/BooksContext';
 
-//Se establece un máximo de caracteres en el string para la descripción de los libros.
-//Si la descripción supera el máximo, se aplica un slice al string y se añade "..." al final.
-const truncateString = (str, num) => {
-  if (str.length <= num) {
-    return str;
-  }
-  return str.slice(0, num) + "...";
-};
 
 //Se crea el componente Home, el cual se encarga de mostrar la página principal de la aplicación.
 const Home = () => {
@@ -122,10 +114,6 @@ const Home = () => {
                       style={{ cursor: 'pointer' }} // Adding a pointer cursor to indicate the card is clickable
                     >
                       <Card.Img src={book.book_image} alt={book.title} className="card-img" />
-                      <Card.ImgOverlay>
-                        <Card.Title style={{ color: 'white' }}>{book.title}</Card.Title>
-                        <Card.Text style={{ color: 'white' }}>{truncateString(book.description, 40)}</Card.Text>
-                      </Card.ImgOverlay>
                     </Card>
                   ))}
                 </Carousel>
