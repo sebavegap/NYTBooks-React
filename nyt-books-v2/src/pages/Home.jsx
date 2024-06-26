@@ -67,7 +67,7 @@ const Home = () => {
             <Card style={{ minHeight: '150px', maxHeight: '2em' }}>
               <Card.Img src={BigImage} alt="Big Image" style={{ minHeight: '150px', objectFit: 'cover' }} />
               <Card.ImgOverlay style={{ background: 'linear-gradient(to bottom, rgba(0,0,0,0.7), rgba(0,0,0,0))' }}>
-                <Card.Title className="text-white">The New York Times Best Sellers</Card.Title>
+                <Card.Title className="text-white font-banner">The New York Times Best Sellers</Card.Title>
                 <Card.Text className="text-white">Authoritatively ranked lists of books sold in the United States, sorted by format and genre.</Card.Text>
               </Card.ImgOverlay>
             </Card>

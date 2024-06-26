@@ -1,3 +1,9 @@
+/* Este va a ser el font de Timew New Roman para el banner del sitio */
+.font-banner {
+  font-family: "Times New Roman", Times, serif;
+  font-size: 2rem;
+}
+
 .carousel-item-half-height {
   height: 300px; /* Set a fixed height for the carousel items */
 }
