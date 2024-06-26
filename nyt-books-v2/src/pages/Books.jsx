@@ -59,7 +59,7 @@ const Books = () => {
       
       <Row>
         <Col md={4}>
-          <Image src={book.book_image} alt="Imagen del libro" fluid />
+          <Image src={book.book_image} alt="Imagen del libro" fluid style={{ height: '50vh' }} />
         </Col>
         <Col md={8} className="text-start">
           <p><strong>{book.description}</strong></p>
