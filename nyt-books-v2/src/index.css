@@ -12,9 +12,10 @@ code {
     monospace;
 }
 
+/* Aqui seleccionamos el font-family para el sitio completo */
 * {
-  font-family: Georgia, serif;
-}
+  font-family: "Bebas Neue", sans-serif;
+};
 
 .bookshelf-background {
   background: url('./assets/imgs/bookshelf.jpg') no-repeat center center;

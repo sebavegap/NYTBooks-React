@@ -62,10 +62,12 @@ const Books = () => {
           <Image src={book.book_image} alt="Imagen del libro" fluid style={{ height: '50vh' }} />
         </Col>
         <Col md={8} className="text-start">
+        <Container style={{ border: '1px solid black', borderRadius: '10px' }}>
           <p><strong>{book.description}</strong></p>
           <p><strong>Author:</strong> {book.author}</p>
           <p><strong>Published by:</strong> {book.publisher}</p>
           <p><strong>Category:</strong> {category}</p>
+          </Container>
         </Col>
       </Row>
     
