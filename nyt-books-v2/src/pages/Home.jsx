@@ -61,7 +61,7 @@ const Home = () => {
       <Container fluid style={{ height: 'auto', margin: 0, width: 'auto', padding: 0 }}>
         <Header />
         <Container>
-  <Row>
+  <Row style={{marginTop: '100px'}}>
     {/* Banner */}
     <Col>
       <Card style={{ minHeight: '150px', maxHeight: '2em', borderColor: 'black' }}>

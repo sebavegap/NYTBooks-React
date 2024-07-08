@@ -18,7 +18,7 @@ const Header = () => {
 
   return (
     <header className="header">
-      <Navbar bg="dark" variant="dark" sticky="top" expand="lg" className="mb-5 pb-2">
+      <Navbar bg="dark" variant="dark"  expand="lg" className="mb-5 pb-2 fixed-top">
         <Container fluid>
           <Navbar.Brand onClick={handleHomeClick} style={{ cursor: 'pointer' }}>
             <img
