@@ -29,19 +29,3 @@ code {
   border: 2px solid black; /* Add a slight black border */
 }
 
-/* falta corregir porque quizas no usemos owl carousel */
-
-
-.bookshelf-background .owl-carousel .item {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  margin: 10px; /* Space between items */
-}
-
-.bookshelf-background .owl-carousel {
-  background-color: rgba(209, 209, 209, 0.1); /* Slightly darker brown with transparency for carousel background */
-  backdrop-filter: blur(5px); /* Apply a blur effect to create a glass-like effect */
-  border-radius: 10px; /* Optional: for rounded corners */
-  padding: 10px; /* Adjust padding as needed */
-}

@@ -62,6 +62,7 @@ const Home = () => {
         <Header />
         <Container>
   <Row>
+    {/* Banner */}
     <Col>
       <Card style={{ minHeight: '150px', maxHeight: '2em', borderColor: 'black' }}>
         <Card.Img src={BigImage} alt="Big Image" style={{ minHeight: '150px', objectFit: 'cover' }} />
@@ -107,10 +108,10 @@ const Home = () => {
                       style={{ cursor: 'pointer' }} // Adding a pointer cursor to indicate the card is clickable
                     >
                       <Card.Img src={book.book_image} alt={book.title} className="card-img" />
-                      <Card.ImgOverlay>
+                    {/*   <Card.ImgOverlay>
                         <Card.Title style={{ color: 'white' }}>{book.title}</Card.Title>
                         <Card.Text style={{ color: 'white' }}>{truncateString(book.description, 40)}</Card.Text>
-                      </Card.ImgOverlay>
+                      </Card.ImgOverlay> */}
                     </Card>
                   ))}
                 </Carousel>
