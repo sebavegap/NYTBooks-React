@@ -15,6 +15,7 @@ code {
 /* Aqui seleccionamos el font-family para el sitio completo */
 * {
   font-family: "Bebas Neue", sans-serif;
+  color: white;
 };
 
 
